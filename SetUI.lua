@@ -22,36 +22,38 @@ local UIcfg = function()
 
 -- [[ 系統/System ]] --
 	
-	-- *UI縮放
+	-- UI縮放
 	SetCVar("useUiScale", 1)		-- 啟用UI縮放，1開
-	SetCVar("uiScale", 1)			-- 若上項設為1則此處設置縮放比
+	SetCVar("uiScale", 0.6)			-- 若上項設為1則此處設置縮放比
 	--啟用進階戰鬥紀錄
 	SetCVar("advancedCombatLogging", 1)
 	
 	-- #截圖
-	SetCVar("screenshotQuality", 10)		-- #品質(慎改，10最高)
+	SetCVar("screenshotQuality", 10)		-- #品質（慎改，10最高）
 	-- SetCVar("screenshotFormat", "tga")	-- #格式
 	
 	-- #和諧，1開
 	SetCVar("overrideArchive", 0)
 	-- #反暴力等級，0=開，1=綠血，5=最高
 	SetCVar("violenceLevel", 5)
+	
 	-- #全螢幕泛光，1開
 	SetCVar("ffxGlow", 0)
 	-- #死亡特效
 	SetCVar("ffxDeath", 0)
 	-- #天氣特效，0~3
 	SetCVar("SkyCloudLOD", 3)
+	
 	-- #*顯示LUA錯誤，1開
 	SetCVar("scriptErrors", 1)
-	-- #不在TOOLTIP上顯示任務進度
+	-- #在TOOLTIP上顯示任務進度，1開
 	SetCVar("showQuestTrackingTooltips", 0)
 	-- #跨甲或同模型塑形提示，1開
 	SetCVar("missingTransmogSourceInItemTooltips", 1)
 	-- #顯示cpu占用(供插件調用)
 	SetCVar("scriptProfile", 1)
 		
-	-- 延遲載入遊戲模組，可能解決7.0卡藍條
+	-- 延遲載入遊戲模組，可能解決7.0卡藍條，但有副（負）作用，慎改
 	--SetCVar("worldPreloadNonCritical", 0)
 
 --[[ 其他/Others ]]--
@@ -130,7 +132,7 @@ local UIcfg = function()
 	-- #浮動戰鬥文字的運動方式，0=傳統垂直往上，1=7.0新的運動方式
 	SetCVar("floatingCombatTextCombatDamageDirectionalScale", 0)
 	-- #全局戰鬥文字縮放，數值1~5；會連快捷列上的經驗神器條數值一起放大。 
-	SetCVar("WorldTextScale", 2)
+	SetCVar("WorldTextScale", 1.5)
 	
 	-- #對目標輸出
 	SetCVar("floatingCombatTextCombatDamage", 0)					-- 傷害
@@ -204,10 +206,10 @@ local UIcfg = function()
 	-- *阻止交易，1開
 	SetCVar("BlockTrades", 0)
 	-- *阻止公會邀請，1開
-	
+	-- it's an api not cvar
 	-- *封鎖對話頻道邀請，1開
 	SetCVar("blockChannelInvites", 0)
-	-- 對其他人只顯示角色成就，1開
+	-- 對其他人只顯示角色成就
 	
 	-- *聊天方式："im"=即時通訊方式，"classic"=傳統模式
 	SetCVar("chatStyle", "classic")
@@ -237,17 +239,19 @@ local UIcfg = function()
 	
 -- [[ 快捷列/Action Bar ]] --
 
+	-- 垂直堆疊右方快捷列
+	
 	-- #*鎖定，1開
 	SetCVar("lockActionBars", 1)
 	-- *總是顯示，1開
 	SetCVar("alwaysShowActionBars", 0)
 	-- 冷卻計時，1開
 	SetCVar("countdownForCooldowns", 0)
-	
+	SetActionBarToggles(1, 0, 1, 0)
 	-- #顯示經驗值數值，1開，0=滑鼠移過顯示
 	SetCVar("xpBarText", 1)
 	-- #*技能隊列，0~400，預設250
-	--SetCVar("maxSpellStartRecoveryOffset", 250)
+	--SetCVar("SpellQueueWindow", 250)
 	-- #*按下按鍵時施放技能，1開
 	SetCVar("ActionButtonUseKeyDown", 1)
 	-- #*切換技能時觸發保險，1開
@@ -300,12 +304,12 @@ local UIcfg = function()
 	SetCVar("nameplateMotion", 1)
 	-- 總是顯示名條，1開
 	SetCVar("nameplateShowAll", 1)
-	--敵方單位(v) -僕從
+	-- 敵方單位(v) -僕從
 	SetCVar("nameplateShowEnemyMinions", 1)			-- 僕從
 	SetCVar("nameplateShowEnemyMinus", 1)			-- 次要
-	--友方單位(shift+v) -僕從
+	-- 友方單位(shift+v) -僕從
 	SetCVar("nameplateShowFriendlyMinions", 0)		-- 僕從
-	SetCVar("nameplateShowFriendlyNPCs",0)			-- #npc
+	SetCVar("nameplateShowFriendlyNPCs", 0)			-- #npc
 	
 	-- #敵方僕從子選項
 	SetCVar("nameplateShowEnemyPets", 1)			-- 寵物
@@ -338,7 +342,10 @@ local UIcfg = function()
 	-- 施法條
 	SetCVar("showVKeyCastbar", 1)					-- #*顯示施法條，1開 
 	--SetCVar("showVKeyCastbarOnlyOnTarget", 0)		-- #只顯示當前目標的施法條，1開
-	--SetCVar("showVKeyCastbarSpellName", 1)		-- #顯示法術名稱，1開 
+	--SetCVar("showVKeyCastbarSpellName", 1)		-- #顯示法術名稱，1開
+	
+	-- "V"
+	SetCVar("nameplateShowEnemies", 1)
 
 	-- #個人資源
 	SetCVar("nameplateSelfScale", 1)				-- #*縮放
@@ -377,11 +384,15 @@ local UIcfg = function()
 	-- *點擊移動
 	SetCVar("Autointeract", 0)
 	-- 點擊移動模式
+	
 	-- *啟用滑鼠靈敏度
+	
 	-- 靈敏度數值
 	
+	-- 將游標鎖定在視窗內
+	
 	-- #更大的滑鼠遊標，-1=自動，0=32*32，1=48*48，2=64*64 
-	SetCVar("cursorsizepreferred", 2)	
+	SetCVar("cursorsizepreferred", 1)	
 	-- #啟用魔獸世界滑鼠，讓驅動接管，可修復游標位置重置bug
 	--SetCVar("rawMouseEnable", 1)
 
@@ -390,7 +401,7 @@ local UIcfg = function()
 	-- *移動面板
 	--enableMovePad
 	-- *動畫字幕
-	-- movieSubtitle
+	SetCVar("movieSubtitle", 1)
 	-- *色盲模式，1開
 	SetCVar("colorblindMode", 0)
 	
@@ -424,12 +435,8 @@ local UIcfg = function()
 	FCF_SetLocked(ChatFrame3, true)
 	FCF_DockFrame(ChatFrame4)
 	FCF_SetLocked(ChatFrame4, true)
-	-- 副框體
-	--FCF_OpenNewWindow(LOOT)
-	FCF_OpenNewWindow()
-	FCF_UnDockFrame(ChatFrame5)
+	FCF_DockFrame(ChatFrame5)
 	FCF_SetLocked(ChatFrame5, true)
-	ChatFrame5:Show()
 	-- 清空
 	ChatFrame_RemoveAllChannels(ChatFrame1)
 	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
@@ -446,19 +453,13 @@ local UIcfg = function()
 		if i == 1 then
 			frame:SetUserPlaced(true)	-- 使其能夠置底
 			frame:ClearAllPoints()
-			frame:SetWidth(440)
+			frame:SetWidth(480)
 			frame:SetHeight(200)
 			frame:SetPoint("BOTTOMLEFT",UIParent,"BOTTOMLEFT",10,20)
-		elseif i == 5 then
-			frame:SetUserPlaced(true)
-			frame:ClearAllPoints()
-			frame:SetWidth(400)
-			frame:SetHeight(80)
-			frame:SetPoint("TOP", ChatFrame1, "TOP", 0, 200)
 		end
 		FCF_SavePositionAndDimensions(frame)
 		FCF_StopDragging(frame)
-		FCF_SetChatWindowFontSize(self, frame, 12)
+		FCF_SetChatWindowFontSize(self, frame, 18)
 		-- 命名分頁
 		if i == 1 then
 			FCF_SetWindowName(frame, GENERAL)
@@ -527,6 +528,7 @@ local UIcfg = function()
 	ChatFrame_AddMessageGroup(ChatFrame5, "COMBAT_FACTION_CHANGE")	-- 聲望值
 	ChatFrame_AddMessageGroup(ChatFrame5, "SKILL")					-- 專業技能
 	ChatFrame_AddMessageGroup(ChatFrame5, "LOOT")					-- 戰例品拾取
+	ChatFrame_AddMessageGroup(ChatFrame1, "LOOT")					-- 戰例品拾取(P1)
 	ChatFrame_AddMessageGroup(ChatFrame5, "CURRENCY")				-- 貨幣
 	ChatFrame_AddMessageGroup(ChatFrame5, "MONEY")					-- 金錢
 	
@@ -589,8 +591,8 @@ StaticPopupDialogs["SET_UI"] = {
 		button1 = ACCEPT,
 		button2 = CANCEL,
 		OnAccept =  function() UIcfg() ReloadUI() end,
-		timeout = 0,	-- 延遲消失，0為一直存在
-		whileDead = true,	-- 死亡時顯示
+		timeout = 0,			-- 延遲消失，0為一直存在
+		whileDead = true,		-- 死亡時顯示
 		hideOnEscape = true,	-- 使esc可取消
 		preferredIndex = 5,
 }
