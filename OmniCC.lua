@@ -134,6 +134,10 @@ end
   This set of code is there to check and force OmniCC to update timers on standard action buttons (henceforth defined as anything that reuses"s blizzard"s ActionButton.lua code
 --]]
 local function Timer_Start(self, start, duration)
+	-- disable on forbidden frame such as friendly nameplates
+	if self:IsForbidden() then return end
+	-- disable meaningless number on pvp honor frame
+	if self:GetParent():GetParent() == PVPQueueFrame then return end
     if (self.noOCC) then 
         return 
     end
