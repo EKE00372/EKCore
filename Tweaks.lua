@@ -36,9 +36,10 @@ local function defaultsetting()
 	-- Interface
 	BossBanner:UnregisterAllEvents()					-- 不顯示橫幅(擊敗首領/圖隊拾取)
 	SetCVar("cameraDistanceMaxZoomFactor", 2.6)			-- 最遠視距，預設1.9
-	SetActionBarToggles(1, 1, 1, 1)						-- 自動啟用快捷列(登入生效，重載無效)	
-	SetSortBagsRightToLeft(true)						-- 反向整理背包
-	SetInsertItemsLeftToRight(true)					-- 反向放置戰利品
+	SetActionBarToggles(true, false, true, false)		-- 自動啟用快捷列(登入生效，重載無效)	
+	SetSortBagsRightToLeft(true)						-- 順向整理背包
+	SetInsertItemsLeftToRight(true)						-- 反向放置戰利品
+	SetAutoDeclineGuildInvites(false)					-- 不要自動拒絕公會邀請
 	MainMenuMicroButton_SetAlertsEnabled(false)			-- 關閉所有提示(如天賦未點)
 	
 	-- Collection
@@ -56,26 +57,23 @@ local function defaultsetting()
 	AlertFrame:SetScale(1.00)	
 	GroupLootContainer:ClearAllPoints()
 	GroupLootContainer:SetPoint("CENTER",UIParent,"CENTER",-200,50)
-	GroupLootContainer:SetScale(1.00) 
+	GroupLootContainer:SetScale(1.00)
 
 	-- Font
 	-- 任務字體(影響全局字體)
-	--QuestTitleFont:SetFont(STANDARD_TEXT_FONT, 18)				-- 標題
-	--QuestFont:SetFont(STANDARD_TEXT_FONT, 18)						-- 描述
-	--QuestFontNormalSmall:SetFont(STANDARD_TEXT_FONT, 18)			-- 目標
-	--QuestFontHighlight:SetFont(STANDARD_TEXT_FONT, 18)			-- 內容
+	QuestTitleFont:SetFont(STANDARD_TEXT_FONT, 18)				-- 標題
+	QuestTitleFont:SetShadowOffset(0, 0)
+	QuestFont:SetFont(STANDARD_TEXT_FONT, 18)					-- 描述
+	QuestFont:SetShadowOffset(0, 0)
+	QuestFontNormalSmall:SetFont(STANDARD_TEXT_FONT, 18)		-- 目標
+	QuestFontNormalSmall:SetShadowOffset(0, 0)
+	QuestFontHighlight:SetFont(STANDARD_TEXT_FONT, 18)			-- 內容
+	QuestFontHighlight:SetShadowOffset(0, 0)
 	-- 團隊字體(影響全局字體)
 	--SystemFont_Shadow_Small:SetFont(STANDARD_TEXT_FONT, 18, "OUTLINE")
 	--SystemFont_Shadow_Small:SetShadowColor(0, 0, 0, 0)
 	--地城手冊技能說名字體放大(副作用未知)
 	--GameFontBlack:SetFont(STANDARD_TEXT_FONT, 18)
-
-	-- 訊息過濾
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_JOIN", function(msg) return true end)		-- 進入頻道
-	--ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_LEAVE", function(msg) return true end)		-- 離開頻道
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(msg) return true end)		-- 頻道通知
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_AFK", function(msg) return true end)					-- 暫離
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_DND", function(msg) return true end)					-- 忙碌
 end 
 
 local DFS = CreateFrame("FRAME", "defaultsetting")
@@ -112,7 +110,7 @@ IconIntroTracker:UnregisterEvent("SPELL_PUSHED_TO_ACTIONBAR")
 -- [[ 節日隨機自動排 ]] --
 
 LFDParentFrame:HookScript("OnShow",function()
-	for i=1, GetNumRandomDungeons() do
+	for i = 1, GetNumRandomDungeons() do
 		local id, name = GetLFGRandomDungeonInfo(i)
 		local isHoliday = select(15, GetLFGDungeonInfo(id))
 		if isHoliday and not GetLFGDungeonRewards(id) then
@@ -122,7 +120,7 @@ LFDParentFrame:HookScript("OnShow",function()
  end)
 
 -- [[ 聊天行數提高至512 ]] --
-
+--[[
 for i = 1, 50 do
 	if _G["ChatFrame"..i] and _G["ChatFrame"..i]:GetMaxLines() ~= 512 then
 		_G["ChatFrame"..i]:SetMaxLines(512)
@@ -135,30 +133,24 @@ hooksecurefunc("FCF_OpenTemporaryWindow", function()
 			_G[cf]:SetMaxLines(512)
 		end
 	end
-end)
+end)]]--
 
 -- [[ 自動輸入delete ]] --
 
-hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"],"OnShow",function(boxEditor)
+hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(boxEditor)
 	boxEditor.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
-end)
-
--- [[ 隱藏當每次打開大地圖時角色標記周圍的提示特效 ]] --
-
-hooksecurefunc(WorldMapUnitPositionFrame, "StartPlayerPing", function(self, arg1, arg2)
-	self:StopPlayerPing()
 end)
 
 -- [[ 讓公會和搜索列表的等級數字不會被吃掉 ]] --
 
-local fixf=CreateFrame("frame")
+local fixf = CreateFrame("frame")
 fixf:RegisterEvent("VARIABLES_LOADED")
 fixf:RegisterEvent("ADDON_LOADED")
 
 -- /who的等級字體
 local fontscale_who = 12
 for i=1, WHOS_TO_DISPLAY do
-	_G["WhoFrameButton"..i.."Level"]:SetFont(_G["WhoFrameButton"..i.."Level"]:GetFont(),fontscale_who);
+	_G["WhoFrameButton"..i.."Level"]:SetFont(_G["WhoFrameButton"..i.."Level"]:GetFont(), fontscale_who)
 end
 
 -- 公會的等級字體
@@ -166,14 +158,14 @@ local fontscale_guild = 13
 function fixf:ADDON_LOADED__GuildRoster(...)
 	if ... == "Blizzard_GuildUI" then
 		hooksecurefunc("GuildRosterButton_SetStringText",function(buttonString, text)
-			buttonString:SetFont(buttonString:GetFont(),tonumber(text) and fontscale_guild or 15);
+			buttonString:SetFont(buttonString:GetFont(), tonumber(text) and fontscale_guild or 15)
 		end)
 	end
 end
 
 fixf:SetScript("OnEvent",function(self,event,...)
 	for fname,func in pairs(fixf) do
-		if type(fname)=="string" and fname:find(event.."__") then
+		if type(fname) == "string" and fname:find(event.."__") then
 			func(self, ...)
 		end
 	end
