@@ -1,7 +1,7 @@
 -- Classic Quest Log
 local function SetCQL()
-	if not IsAddOnLoaded("ClassicQuestLog") then return end
-	if(ClassicQuestLogSettings) then table.wipe(ClassicQuestLogSettings) end
+	if not IsAddOnLoaded("Classic Quest Log") then return end
+	if ClassicQuestLogSettings then table.wipe(ClassicQuestLogSettings) end
 	ClassicQuestLogSettings = {
 	["ShowTooltips"] = true,
 	["UndockWindow"] = false,
@@ -14,7 +14,7 @@ end
 -- Litebag
 local function SetLiteBag()
 	if not IsAddOnLoaded("LiteBag") then return end
-	if(LiteBag_OptionsDB) then table.wipe(LiteBag_OptionsDB) end
+	if LiteBag_OptionsDB then table.wipe(LiteBag_OptionsDB) end
 	LiteBag_OptionsDB = {
 		["Frame:LiteBagInventoryPanel"] = {
 			["columns"] = 10,
@@ -37,7 +37,7 @@ end]]--
 
 local SetAddon = CreateFrame("Frame")
 SetAddon:RegisterEvent("PLAYER_LOGIN")
---SetAddon:RegisterEvent("PLAYER_ENTERING_WORLD")
+SetAddon:RegisterEvent("PLAYER_ENTERING_WORLD")
 SetAddon:SetScript("OnEvent", function()
 	SetLiteBag()
 	SetCQL()
