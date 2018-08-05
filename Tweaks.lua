@@ -84,29 +84,6 @@ local function eventHandler(self, event, ...)
 end 
 DFS:SetScript("OnEvent", eventHandler)
 
-
---[[ Addon Config Scroll Fix ]]--
-
-local function func(self, val)
-    ScrollFrameTemplate_OnMouseWheel(InterfaceOptionsFrameAddOnsList, val)
-end
-
-for i = 1, #InterfaceOptionsFrameAddOns.buttons do
-    local f = _G["InterfaceOptionsFrameAddOnsButton"..i]
-    f:EnableMouseWheel()
-    f:SetScript("OnMouseWheel", func)
-end
-
--- [[ Bypass the buggy cancel cinematic confirmation dialog ]] --
-
-hooksecurefunc(CinematicFrame.closeDialog, "Show", function()
-    CinematicFrame.closeDialog:Hide()
-    CinematicFrame_CancelCinematic()
-end)
-
--- [[ Stop putting spells into my bars, thank you ]] --
-IconIntroTracker:UnregisterEvent("SPELL_PUSHED_TO_ACTIONBAR")
-
 -- [[ 節日隨機自動排 ]] --
 
 LFDParentFrame:HookScript("OnShow",function()
@@ -119,107 +96,12 @@ LFDParentFrame:HookScript("OnShow",function()
 	end
  end)
 
--- [[ 聊天行數提高至512 ]] --
---[[
-for i = 1, 50 do
-	if _G["ChatFrame"..i] and _G["ChatFrame"..i]:GetMaxLines() ~= 512 then
-		_G["ChatFrame"..i]:SetMaxLines(512)
-	end
-end
-hooksecurefunc("FCF_OpenTemporaryWindow", function()
-	local chatframe = FCF_GetCurrentChatFrame():GetName() or nil
-	if chatframe then
-		if (_G[cf]:GetMaxLines() ~= 512) then
-			_G[cf]:SetMaxLines(512)
-		end
-	end
-end)]]--
-
 -- [[ 自動輸入delete ]] --
 
 hooksecurefunc(StaticPopupDialogs["DELETE_GOOD_ITEM"], "OnShow", function(boxEditor)
 	boxEditor.editBox:SetText(DELETE_ITEM_CONFIRM_STRING)
 end)
 
--- [[ 讓公會和搜索列表的等級數字不會被吃掉 ]] --
-
-local fixf = CreateFrame("frame")
-fixf:RegisterEvent("VARIABLES_LOADED")
-fixf:RegisterEvent("ADDON_LOADED")
-
--- /who的等級字體
-local fontscale_who = 12
-for i=1, WHOS_TO_DISPLAY do
-	_G["WhoFrameButton"..i.."Level"]:SetFont(_G["WhoFrameButton"..i.."Level"]:GetFont(), fontscale_who)
-end
-
--- 公會的等級字體
-local fontscale_guild = 13
-function fixf:ADDON_LOADED__GuildRoster(...)
-	if ... == "Blizzard_GuildUI" then
-		hooksecurefunc("GuildRosterButton_SetStringText",function(buttonString, text)
-			buttonString:SetFont(buttonString:GetFont(), tonumber(text) and fontscale_guild or 15)
-		end)
-	end
-end
-
-fixf:SetScript("OnEvent",function(self,event,...)
-	for fname,func in pairs(fixf) do
-		if type(fname) == "string" and fname:find(event.."__") then
-			func(self, ...)
-		end
-	end
-end)
-
--- [[ 團隊確認警示音 ]] --
-
-local ReadyCheckAlert = CreateFrame("Frame")
-ReadyCheckAlert:RegisterEvent("READY_CHECK")
-ReadyCheckAlert:SetScript("OnEvent", function()
-	PlaySound(8960, "master")
-end)
-
--- [[ 低血量警報 ]] --
-
-local last = 0
-local LowHP = CreateFrame("Frame")
-LowHP:RegisterUnitEvent("UNIT_HEALTH", "player")
-LowHP:SetScript("OnEvent", function() 
-	-- 死了不算
-	if UnitIsDeadOrGhost("player") then return end
-	-- 報警閾值
-    local lowHealth = (UnitHealth("player") / UnitHealthMax("player") < 0.3)
-	-- 時間間隔
-	local now = GetTime()
-    if now - last < 2 then return end
-	-- 警報聲
-	if lowHealth then
-		--PlaySound(8959, "Master") 
-		PlaySoundFile("Interface\\Addons\\EKcore\\Combat\\HealthWarning.ogg", "Master")
-		last = now
-	elseif not lowHealth then 
-		return 
-	end
-end)
-
--- [[ 暫離狀態戰鬥警報]] --
-
-local AfkAggro = CreateFrame("Frame")
-AfkAggro:RegisterEvent("PLAYER_REGEN_DISABLED")
-AfkAggro:RegisterEvent("PLAYER_REGEN_ENABLED")
-AfkAggro:SetScript("OnEvent", function(self, event, ...)
-	--副本裡不算
-	local _, instanceType = IsInInstance()
-	if instanceType == "raid" then return end
-	--限定暫離
-	if not IsChatAFK() then return end
-	--警報聲
-	if event == "PLAYER_REGEN_DISABLED" then	--進入戰鬥
-		PlaySoundFile("Sound\\Creature\\BabyMurloc\\BabyMurlocA.ogg", "Master")
-	elseif event == "PLAYER_REGEN_ENABLED" then	--離開戰鬥
-		StopMusic()
-	end
-end)
 
 -- [[ raid和m+自動戰鬥紀錄 ]] --
 
