@@ -1,0 +1,8 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SetAddons"/>	
+	<Script file="SetBW.lua"/>	
+	<!--Script file="SetDBM.lua"/-->	
+	<!--Script file="SetCompactRaid.lua"/-->	
+	<Script file="SetMSBT.lua"/>		
+	<!--Script file="SetSkyUI.lua"/-->	
+</Ui>
