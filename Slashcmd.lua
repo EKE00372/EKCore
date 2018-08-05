@@ -15,7 +15,7 @@ HelpFrame:SetScript("OnEvent", function(self, event)
 end)
 
 StaticPopupDialogs.UI_HELP = {
-	text = "重載界面：/rl \n載入預設的介面設定：/setui\n強制修復框體層級的錯誤：/stratafix force \n\n載入預設的插件設定： \nBW或DBM設定：/setbw或/setdbm \nCompactraid設定：/setcr \nMSBT設定：/setmsbt \n\n聊天框體： \n清除單頁內容：/cc \n清除所有內容：/cca \n開啟大腳世界頻道：/dchat \n重置位置：/setchat \n\n自由拾取：/ffa \n準備確認：/rc \n角色職責檢查：/cr \n\n解散隊伍：/rd \n離開隊伍：/lg \n小隊團隊轉換：/rtp /ptr \n\n離開戰場或競技場：/lbg  \n重置副本：/dgr \n隨機副本傳送：/dgt \n\n切換副本模式： \n五人：/5n /5h /5m  \n舊團隊：/10n /10h /25n /25h \n團隊：/nm /hm /mm \n\n切換專精：/s#，#為專精排序數字 \n\n小地圖右鍵開啟微型選單 \n滾輪可縮放地圖，alt+滾輪可縮放框體",
+	text = "重載界面：/rl \n載入預設的介面設定：/setui \n\n載入預設的插件設定： \nBW或DBM設定：/setbw或/setdbm \nCompactraid設定：/setcr \nMSBT設定：/setmsbt \n\n聊天框體： \n清除單頁內容：/cc \n清除所有內容：/cca \n開啟大腳世界頻道：/dchat \n重置位置：/setchat \n\n自由拾取：/ffa \n準備確認：/rc \n角色職責檢查：/cr \n\n解散隊伍：/rd \n離開隊伍：/lg \n小隊團隊轉換：/rtp /ptr \n\n離開戰場或競技場：/lbg  \n重置副本：/dgr \n隨機副本傳送：/dgt \n\n切換副本模式： \n五人：/5n /5h /5m  \n舊團隊：/10n /10h /25n /25h \n團隊：/nm /hm /mm \n\n切換專精：/s#，#為專精排序數字 \n\n小地圖右鍵開啟微型選單 \n滾輪可縮放地圖，alt+滾輪可縮放框體",
 	button1 = "知道了",
 	timeout = 0,
 	whileDead = true,
@@ -151,25 +151,6 @@ SlashCmdList["S4"] = function(msg)
 	print(SWITCH.." >"..specName.."< "..SPECIALIZATION.."...") end
 SLASH_S41 = "/s4"
 
--- [[ 清除聊天框內容 ]] --
-
--- 清除單頁
-SlashCmdList["CLEAR"] = function(msg)
-	SELECTED_CHAT_FRAME:Clear()  
-	if IsCombatLog(SELECTED_CHAT_FRAME) then
-		CombatLogClearEntries()	-- Check for CombatLog Frame and Clear it the right way
-	end	
-end
-SLASH_CLEAR1 = "/cc"
-
--- 清除所有
-SlashCmdList["CLEARALL"] = function(msg)
-	for i=1, NUM_CHAT_WINDOWS do
-		_G["ChatFrame"..i]:Clear()
-	end
-	CombatLogClearEntries()	-- Clear CombatLog the right way
-end
-SLASH_CLEARALL1 = "/cca"
 
 -- [[ 副本 ]] --
 
@@ -384,29 +365,3 @@ SlashCmdList["BG"] = function(msg)
 	end
 end
 SLASH_BG1 = "/lbg"
-
---[[DUMP FROM globalstrings.lua
-SetLootMethod("freeforall")/SetLootMethod("needbeforegreed")/SetLootMethod(freeforall)
-SLASH_LOOT_FFA1 = "/自由拾取"
-SLASH_LOOT_FFA2 = "/ffa"
-
-SLASH_LOOT_GROUP1 = "/group"
-SLASH_LOOT_GROUP2 = "/隊伍"
-
-SLASH_LOOT_MASTER1 = "/隊長分配"
-SLASH_LOOT_MASTER2 = "/master"
-
-SLASH_LOOT_NEEDBEFOREGREED1 = "/需大於貪"
-SLASH_LOOT_NEEDBEFOREGREED2 = "/需求優先"
-
-SLASH_LOOT_ROUNDROBIN1 = "/輪流拾取"
-SLASH_LOOT_ROUNDROBIN2 = "/roundrobin"
-
-SLASH_LOOT_SETTHRESHOLD1 = "/threshold"
-SLASH_LOOT_SETTHRESHOLD2 = "/界限"
-
-SLASH_TEAM_DISBAND1 = "/teamdisband"
-SLASH_TEAM_DISBAND2 = "/tdisband"
-SLASH_TEAM_DISBAND3 = "/小隊解散"
-SLASH_TEAM_DISBAND4 = "/小隊解散"
-]]--
