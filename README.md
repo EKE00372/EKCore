@@ -3,7 +3,11 @@
 Readme License Credit大概要寫得很長了
 
 ## Addon list
-> Core
+
+<details>
+    <summary>Core</summary>
+    <p>
+
 * [SetUI]
     * a custom default CVar list and chat frame setting
     * /setui to load
@@ -33,24 +37,30 @@ Readme License Credit大概要寫得很長了
 * [SnowfallCursor](https://www.wowinterface.com/downloads/info15693-SnowfallCursor.html) by Dayn
 * [tullaRange](https://mods.curse.com/addons/wow/tullarange#t1:description) by Tuller
 * [Tweaks]
-    * [eAlign Updated](https://mods.curse.com/addons/wow/ealign-updated) by Lohkin143  
     * Force Default Setting
-    * [UIScale]: WOWI [Thread1](https://www.wowinterface.com/forums/showthread.php?t=31813) , [Thread2](https://www.wowinterface.com/forums/showthread.php?t=54089)
+    * [eAlign Updated](https://mods.curse.com/addons/wow/ealign-updated) by Lohkin143
     * [SpeedDel](https://mods.curse.com/addons/wow/speeddel)
-    * [HSomeFix](http://bbs.ngacn.cc/read.php?tid=10057098)
     * [EventBossAutoSelect](https://www.wowinterface.com/downloads/info20440-EventBossAutoSelect.html)
-    * [WorldMapPingHider](https://mods.curse.com/addons/wow/world-map-ping-hider)
-    * [Fleischpflanzerl](https://github.com/Stanzilla/Fleischpflanzerl/blob/master/Modules/Slashhandler.lua)
     * [EasyLogger](https://mods.curse.com/addons/wow/easylogger)
-* [CharacterStats]  
-  * show 2 decimal places and hidden stats  
-  * credits to: [NDui](https://github.com/siweia/NDui)  
-* [DragEmAll](https://mods.curse.com/addons/wow/drag-em-all) by emelio  
-  * referred [RayUI](https://github.com/fgprodigal/RayUI) fan update 
-  
-> AllTheIDs
+* [DragEmAll](https://mods.curse.com/addons/wow/drag-em-all) by emelio
+    * referred [RayUI](https://github.com/fgprodigal/RayUI) fan update
+ 
+  </p>
+</details>
+
+<details>
+    <summary>AllTheIDs</summary>
+    <p>
+
 * [AllTheIDs](https://wow.curseforge.com/projects/alltheids) by endx7
-> Combat
+
+  </p>
+</details>
+
+<details>
+    <summary>Combat</summary>
+    <p>
+
 * [CombatAlert] by fgprodigal, keep fix and update
 * [CombatAlertSound]
     * [BabyCombatMurloc](https://www.wowinterface.com/downloads/info21135-BabyCombatMurloc.html)
@@ -67,36 +77,51 @@ Readme License Credit大概要寫得很長了
     * announce taunt, broadcast taunt who isnt tank role
     * announce massrez
     * announce sapped and alert to ppl around you
-> not yet
-### Interface
-* [Binds When?](https://mods.curse.com/addons/wow/bindswhen) by Phanx, with modify  
+
+  </p>
+</details>
+
+<details>
+    <summary>Interface</summary>
+    <p>
+       
+* [CharacterStats]  
+    * show 2 decimal places and hidden stats
+    * credits to: [NDui](https://github.com/siweia/NDui)
+* [FastError](https://www.wowinterface.com/downloads/info16645) by AlleyKat, with modify
+* [FriendColor](https://www.wowinterface.com/downloads/info8679) by Awbee
+* [MailinputboxResizer](https://www.wowinterface.com/downloads/info22663) by Tonyleila, with modify
+* [GuildIcons](https://www.wowinterface.com/downloads/info20028) by Ailae, with modify
+* [ImprovedLootFrame](https://mods.curse.com/addons/wow/improved-loot-frame), [ImprovedOptionsFrames](https://mods.curse.com/addons/wow/improved-options-frames), [ImprovedStableFrame](https://mods.curse.com/addons/wow/improved-stable-frame) by Cybeloras
+* [Binds When?](https://mods.curse.com/addons/wow/bindswhen) by Phanx, with modify
+
+    </p>
+</details>
+
+> to do
+
+* [WorldMapPingHider](https://mods.curse.com/addons/wow/world-map-ping-hider)
+* [Fleischpflanzerl](https://github.com/Stanzilla/Fleischpflanzerl/blob/master/Modules/Slashhandler.lua)
+* [HSomeFix](http://bbs.ngacn.cc/read.php?tid=10057098)
+* [UIScale]: WOWI [Thread1](https://www.wowinterface.com/forums/showthread.php?t=31813) , [Thread2](https://www.wowinterface.com/forums/showthread.php?t=54089)
 * [BlizzardGuildUIStatus](https://www.wowinterface.com/downloads/fileinfo.php?id=18514) by Vladinator  
-* [FastError](https://www.wowinterface.com/downloads/info16645) by AlleyKat, with modify  
-* [FriendColor](https://www.wowinterface.com/downloads/info8679) by Awbee  
 * [GuildBankList]  
-* [GuildIcons](https://www.wowinterface.com/downloads/info20028) by Ailae, with modify  
-* [ImprovedLootFrame](https://mods.curse.com/addons/wow/improved-loot-frame), [ImprovedOptionsFrames](https://mods.curse.com/addons/wow/improved-options-frames), [ImprovedStableFrame](https://mods.curse.com/addons/wow/improved-stable-frame) by Cybeloras  
-* [MailinputboxResizer](https://www.wowinterface.com/downloads/info22663) by Tonyleila, with modify  
 * [MerchantFilterButtons]  
 * [ObjectiveTrackerForModemists]  
 * [PokeBandage]  
 * [TutorialBuster]  
-### Map
-### Map
 * [Foglight]  
 * [MapCoords]  
 * [ToggleTreasures]  
 * [WordMapPlayerDotResizer]  
 * [WorldFlightMap]  
 * [WorldMapZoom]  
-### TradeSkill
 * [AlreadyKnown]  
 * [AuctionCancel]  
 * [OneClickBuyOut]  
 * [OneClickEnchantScroll]  
 * [TradeTabs]  
 * [TrainAll]  
-### Misc
 * [AchievementSS]  
 * [AutoSelectLootMethod]  
 * [FakeAchievement]  
@@ -106,19 +131,8 @@ Readme License Credit大概要寫得很長了
 * [PostmasterGeneral](https://mods.curse.com/addons/wow/postmastergeneral) by Semlar, with modify  
 * [SayGMOTD]  
 * [ShiftRight](https://mods.curse.com/addons/wow/shift-right) by vbezhenar   
+* [Speedy Load](https://mods.curse.com/addons/wow/speedy-load) by Cybeloras
 
-> [Speedy Load](https://mods.curse.com/addons/wow/speedy-load) by Cybeloras
-
-## To do list
-
-* 法術警報：悶棍/群復/戰復/打斷/嘲諷
-  * 悶棍：被悶/被誰悶
-  * 戰復：被誰復/播放音效
-  * 群復：被誰復/復活人數
-  * 打斷：就打斷，lfd裡不啟用
-  * 嘲諷：誰嘲諷/非坦職業嘲諷
-* RAID CD
-  * 嘗試把打斷CD做成一體
 ## others
 ````
 防暫離
