@@ -4,6 +4,8 @@ Readme License Credit大概要寫得很長了
 
 ## Addon list
 
+> Core
+
 <details>
     <summary>Core</summary>
     <p>
@@ -48,6 +50,8 @@ Readme License Credit大概要寫得很長了
   </p>
 </details>
 
+> AllTheIDs
+
 <details>
     <summary>AllTheIDs</summary>
     <p>
@@ -81,6 +85,8 @@ Readme License Credit大概要寫得很長了
   </p>
 </details>
 
+> Interface
+
 <details>
     <summary>Interface</summary>
     <p>
@@ -100,6 +106,10 @@ Readme License Credit大概要寫得很長了
 
 > to do
 
+<details>
+    <summary>To do</summary>
+    <p>
+        
 * [WorldMapPingHider](https://mods.curse.com/addons/wow/world-map-ping-hider)
 * [Fleischpflanzerl](https://github.com/Stanzilla/Fleischpflanzerl/blob/master/Modules/Slashhandler.lua)
 * [HSomeFix](http://bbs.ngacn.cc/read.php?tid=10057098)
@@ -132,6 +142,9 @@ Readme License Credit大概要寫得很長了
 * [SayGMOTD]  
 * [ShiftRight](https://mods.curse.com/addons/wow/shift-right) by vbezhenar   
 * [Speedy Load](https://mods.curse.com/addons/wow/speedy-load) by Cybeloras
+
+    </p>
+</details>
 
 ## others
 ````
