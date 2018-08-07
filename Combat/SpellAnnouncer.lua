@@ -16,26 +16,31 @@
 -- SayMassRez
 -- https://www.wowinterface.com/downloads/info21078-SayMassRez.html
 
-local channel = "SAY"	-- "PARTY", "RAID"
+-- [[ config ]] --
 
+local channel = "SAY"	-- "PARTY", "RAID"	-- broadcast channel
+
+-- [[ spell list ]] --
+
+-- taunt list
 local taunts = {
-	[355]		= true, -- Warrior
+	[355]    = true, -- Warrior
 	--[114198] = true, -- Warrior (Mocking Banner)
-	[2649] 		= true, -- Hunter (Pet)
-	[20736]		= true, -- Hunter (Distracting Shot)
-	[123588]	= true, -- Hunter (Distracting Shot - glyphed)
-	[6795]		= true, -- Druid
-	[17735]		= true, -- Warlock (Voidwalker)
-	[97827]		= true, -- Warlock (Provocation (Metamorphosis))
-	[49560]		= true, -- Death Knight (Death Grip (aura))
-	[56222]		= true, -- Death Knight
-	[73684]		= true, -- Shaman (Unleash Earth)
-	[62124]		= true, -- Paladin
-	[116189]	= true, -- Monk (Provoke (aura))
-	[118585]	= true, -- Monk (Leer of the Ox)
-	[118635]	= true, -- Monk (Black Ox Provoke)
+	[2649]   = true, -- Hunter (Pet)
+	[20736]  = true, -- Hunter (Distracting Shot)
+	[123588] = true, -- Hunter (Distracting Shot - glyphed)
+	[6795]   = true, -- Druid
+	[17735]  = true, -- Warlock (Voidwalker)
+	[97827]  = true, -- Warlock (Provocation (Metamorphosis))
+	[49560]  = true, -- Death Knight (Death Grip (aura))
+	[56222]  = true, -- Death Knight
+	[73684]  = true, -- Shaman (Unleash Earth)
+	[62124]  = true, -- Paladin
+	[116189] = true, -- Monk (Provoke (aura))
+	[118585] = true, -- Monk (Leer of the Ox)
+	[118635] = true, -- Monk (Black Ox Provoke)
 }
-
+-- mass rez list
 local massrez = {
 	[212036] = true,
 	[212040] = true,
@@ -44,7 +49,9 @@ local massrez = {
 	[212056] = true,
 }
 
--- to get realm locale
+-- [[ to get realm locale ]] --
+
+-- note: this only check if UTF-8 or not, actually cant distinguish chinese, korean, or jepanese
 local realmLocale
 local realm = GetRealmName()
 local byt = {string.byte(realm,1,#realm)}
@@ -56,7 +63,7 @@ for i,v in ipairs(byt) do
 	end 
 end
 
-
+-- [[ core ]] --
 local SpellAnnouncer = CreateFrame("Frame")
 
 local function OnEvent(self, event, ...)
@@ -97,6 +104,7 @@ local function OnEvent(self, event, ...)
 		local role = UnitGroupRolesAssigned(sourceName)
 		local s = EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName
 		print(s)
+		-- 通報非坦克職責嘲諷
 		if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and role ~= "TANK" then
 			SendChatMessage(s, "INSTANCE_CHAT")
 		elseif IsInGroup() and not IsInRaid() and role ~= "TANK" then
@@ -128,4 +136,4 @@ end
 
 SpellAnnouncer:SetScript("OnEvent", OnEvent)
 SpellAnnouncer:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-SpellAnnouncer:RegisterEvent("ADDON_LOADED")
+--SpellAnnouncer:RegisterEvent("ADDON_LOADED")	-- actually doesnt need this event
