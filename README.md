@@ -3,7 +3,6 @@
 Readme License Credit大概要寫得很長了
 
 ## Addon list
-
 > Core
 * [SetUI]
     * a custom default CVar list and chat frame setting
@@ -25,16 +24,15 @@ Readme License Credit大概要寫得很長了
      * achievement frame
      * boss frame
 * [OmniCC](https://github.com/tullamods/OmniCC) by Tuller
-    * a pure version without config and lib
+    * a pure version without config and lib, keep fix and update
     * referred from [NeavUI](https://github.com/renstrom/NeavUI)
 * [SnowfallCursor](https://www.wowinterface.com/downloads/info15693-SnowfallCursor.html) by Dayn
 * [tullaRange](https://mods.curse.com/addons/wow/tullarange#t1:description) by Tuller
 * [Tweaks]
     * [eAlign Updated](https://mods.curse.com/addons/wow/ealign-updated) by Lohkin143  
     * Force Default Setting
-    * [UIScale](https://www.wowinterface.com/forums/showthread.php?t=31813) from WOWI commits, [Another thread](https://www.wowinterface.com/forums/showthread.php?t=54089)
+    * [UIScale]: WOWI [Thread1](https://www.wowinterface.com/forums/showthread.php?t=31813) , [Thread2](https://www.wowinterface.com/forums/showthread.php?t=54089)
     * [SpeedDel](https://mods.curse.com/addons/wow/speeddel)
-    * [BabyCombatMurloc](https://www.wowinterface.com/downloads/info21135-BabyCombatMurloc.html)
     * [HSomeFix](http://bbs.ngacn.cc/read.php?tid=10057098)
     * [EventBossAutoSelect](https://www.wowinterface.com/downloads/info20440-EventBossAutoSelect.html)
     * [WorldMapPingHider](https://mods.curse.com/addons/wow/world-map-ping-hider)
@@ -49,6 +47,11 @@ Readme License Credit大概要寫得很長了
 > AllTheIDs
 * [AllTheIDs](https://wow.curseforge.com/projects/alltheids) by endx7
 > Combat
+* [CombatAlert] by fgprodigal, keep fix and update
+* [CombatAlertSound]
+    * [BabyCombatMurloc](https://www.wowinterface.com/downloads/info21135-BabyCombatMurloc.html)
+    * [LowHP](https://wow.curseforge.com/projects/low-hp)
+    * 
 > not yet
 ### Interface
 * [Binds When?](https://mods.curse.com/addons/wow/bindswhen) by Phanx, with modify  
