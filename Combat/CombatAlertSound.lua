@@ -1,9 +1,11 @@
+-- BabyCombatMurloc! from Nynaeve: https://www.wowinterface.com/downloads/info21135-BabyCombatMurloc.html
+
 -- [[ 團隊確認警示音 ]] --
 
 local ReadyCheckAlert = CreateFrame("Frame")
 ReadyCheckAlert:RegisterEvent("READY_CHECK")
 ReadyCheckAlert:SetScript("OnEvent", function()
-	PlaySound("ReadyCheck", "master")
+	PlaySound(8960, "master")	-- ReadyCheck
 end)
 
 -- [[ 低血量警報 ]] --
@@ -27,8 +29,7 @@ LowHP:SetScript("OnEvent", function()
 	end
 end)
 
-
--- [[ 暫離狀態戰鬥警報]] --
+-- [[ 暫離狀態戰鬥警報 ]] --
 
 local AfkAggro = CreateFrame("Frame")
 AfkAggro:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -46,3 +47,22 @@ AfkAggro:SetScript("OnEvent", function(self, event, ...)
 	end
 end)
 
+-- [[ 戰復警示音 ]] --
+
+local battlerez = {
+	[95750]  = true,
+	[20484]  = true,
+	[113269] = true,
+	[61999]  = true,
+	[126393] = true,
+}
+local BattleResAlert = CreateFrame("Frame")
+local function OnEvent(self, event, ...)
+	local _, subEvent, _, _, sourceName, _, _, _, destName, _, _, spellID  = CombatLogGetCurrentEventInfo()
+	if subEvent == "SPELL_CAST_SUCCESS" and destName == UnitName("player") and battlerez[spellID] then
+		--DEFAULT_CHAT_FRAME:AddMessage("已被"..sourceName.."戰復")
+		PlaySound(12889, "Master")	-- AlarmClockWarning3
+	end
+end
+BattleResAlert:SetScript("OnEvent", OnEvent)
+BattleResAlert:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
