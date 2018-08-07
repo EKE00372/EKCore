@@ -4,11 +4,7 @@ Readme License Credit大概要寫得很長了
 
 ## Addon list
 
-> Core
-
-<details>
-    <summary>Core</summary>
-    <p>
+### Core
 
 * [SetUI]
     * a custom default CVar list and chat frame setting
@@ -46,26 +42,12 @@ Readme License Credit大概要寫得很長了
     * [EasyLogger](https://mods.curse.com/addons/wow/easylogger)
 * [DragEmAll](https://mods.curse.com/addons/wow/drag-em-all) by emelio
     * referred [RayUI](https://github.com/fgprodigal/RayUI) fan update
- 
-  </p>
-</details>
 
-> AllTheIDs
-
-<details>
-    <summary>AllTheIDs</summary>
-    <p>
+### AllTheIDs
 
 * [AllTheIDs](https://wow.curseforge.com/projects/alltheids) by endx7
 
-  </p>
-</details>
-
-> Combat
-
-<details>
-    <summary>Combat</summary>
-    <p>
+### Combat
 
 * [CombatAlert] by fgprodigal, keep fix and update
 * [CombatAlertSound]
@@ -84,15 +66,8 @@ Readme License Credit大概要寫得很長了
     * announce massrez
     * announce sapped and alert to ppl around you
 
-  </p>
-</details>
+### Interface
 
-> Interface
-
-<details>
-    <summary>Interface</summary>
-    <p>
-       
 * [CharacterStats]  
     * show 2 decimal places and hidden stats
     * credits to: [NDui](https://github.com/siweia/NDui)
@@ -103,15 +78,8 @@ Readme License Credit大概要寫得很長了
 * [ImprovedLootFrame](https://mods.curse.com/addons/wow/improved-loot-frame), [ImprovedOptionsFrames](https://mods.curse.com/addons/wow/improved-options-frames), [ImprovedStableFrame](https://mods.curse.com/addons/wow/improved-stable-frame) by Cybeloras
 * [Binds When?](https://mods.curse.com/addons/wow/bindswhen) by Phanx, with modify
 
-    </p>
-</details>
+### to do
 
-> to do
-
-<details>
-    <summary>To do</summary>
-    <p>
-        
 * [WorldMapPingHider](https://mods.curse.com/addons/wow/world-map-ping-hider)
 * [Fleischpflanzerl](https://github.com/Stanzilla/Fleischpflanzerl/blob/master/Modules/Slashhandler.lua)
 * [HSomeFix](http://bbs.ngacn.cc/read.php?tid=10057098)
@@ -144,9 +112,6 @@ Readme License Credit大概要寫得很長了
 * [SayGMOTD]  
 * [ShiftRight](https://mods.curse.com/addons/wow/shift-right) by vbezhenar   
 * [Speedy Load](https://mods.curse.com/addons/wow/speedy-load) by Cybeloras
-
-    </p>
-</details>
 
 ## others
 ````
