@@ -67,7 +67,7 @@ end
 local SpellAnnouncer = CreateFrame("Frame")
 
 local function OnEvent(self, event, ...)
-	local _, subEvent, _, _, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID _, Misstype  = CombatLogGetCurrentEventInfo()
+	local _, subEvent, _, _, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
 	-- 只對自己生效
 	--if select(5,...) ~= UnitName("player") then return end
 	-- 排隨機不啟用
@@ -75,7 +75,8 @@ local function OnEvent(self, event, ...)
 	-- 在伊利丹排隨機不啟用
 	--if IsInLFGDungeon() and (GetLocale() == "enUS") and (GetRealmName() == "Illidan") then return end	
 	-- 打斷
-	if subEvent == "SPELL_INTERRUPT" then
+	if subEvent == "SPELL_INTERRUPT" and spellID ~= 240448 then
+		-- 格式： 中斷：角色[技能]->怪物[技能]
 		local s = INTERRUPT..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName..GetSpellLink(EspellID)
 		-- 通報自己的打斷，輸出他人的打斷至聊天框但不通報
 		if sourceName == UnitName("player") then
@@ -85,7 +86,9 @@ local function OnEvent(self, event, ...)
 				SendChatMessage("Interrupted "..GetSpellLink(EspellID), channel)
 			end
 		else
-			print(s)
+			if (UnitInRaid(sourceName) or UnitInParty(sourceName)) then
+				print(s)
+			end
 		end
 	-- 驅散
 	elseif subEvent == "SPELL_DISPEL" then
