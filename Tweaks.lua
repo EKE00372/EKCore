@@ -1,34 +1,33 @@
 ﻿--[[ 小功能微調 ]]--
 
-	-- 	collectgarbage - http://bbs.nga.cn/read.php?tid=4641810
-	-- 小按鈕 - https://bbs.nga.cn/read.php?pid=138374968
-	-- SpeedDel: https://mods.curse.com/addons/wow/speeddel
-	-- WorldMapPingHider: https://mods.curse.com/addons/wow/world-map-ping-hider
-	-- EventBossAutoSelect: https://www.wowinterface.com/downloads/info20440-EventBossAutoSelect.html
-	-- 字體縮小來自 HSomeFix from 上官曉霧: http://bbs.ngacn.cc/read.php?tid=10057098
-	-- BabyCombatMurloc! from Nynaeve: https://www.wowinterface.com/downloads/info21135-BabyCombatMurloc.html
-	-- 姓名板字型 http://www.mmo-champion.com/threads/2064978-nameplate-of-target-back-to-normal-size
+	-- EventBossAutoSelect
+	-- https://www.wowinterface.com/downloads/info20440-EventBossAutoSelect.html
+	-- SpeedDel
+	-- https://mods.curse.com/addons/wow/speeddel
+	-- EasyLogger
+	-- https://www.wowinterface.com/downloads/info20498-EasyLogger.html
+	-- 成就自動截圖
+	-- https://www.wowinterface.com/downloads/info10282-AchievementSS.html
+	-- https://www.wowinterface.com/downloads/info22255-LevelCam.html
 
-	
-	-- 其他
-	-- [Addon/Script]party name to class name https://www.wowinterface.com/forums/showthread.php?t=49176
+	-- 其他有的沒的
+	-- [Addon/Script]party name to class name
+	-- https://www.wowinterface.com/forums/showthread.php?t=49176
 	-- http://www.mmo-champion.com/threads/2003404-Question-about-the-Legion-center-screen-HP-resource-bar
-	-- Remove buff icons above Personal Resource Display - http://www.mmo-champion.com/threads/2089610-Remove-buff-icons-above-Personal-Resource-Display	
-	-- Any way to make the new 7.0.3 Personal Resource Display unclickable? - https://www.wowinterface.com/forums/showthread.php?t=54126
+	-- Remove buff icons above Personal Resource Display
+	-- http://www.mmo-champion.com/threads/2089610-Remove-buff-icons-above-Personal-Resource-Display	
+	-- Any way to make the new 7.0.3 Personal Resource Display unclickable?
+	-- https://www.wowinterface.com/forums/showthread.php?t=54126
 	-- http://www.mmo-champion.com/threads/1647254-Auto-change-raid-Frames-on-group-size
-
--- [[ 全局縮放 ]] --
---[[
-local AutoScale = CreateFrame("Frame", nil, UIParent)
-AutoScale:RegisterEvent("PLAYER_ENTERING_WORLD")
-AutoScale:SetScript("OnEvent", function(self, event)
-	SetCVar("useUiScale", "1")
-	SetCVar("uiScale", "1")
-	local newScale = 768 / string.match(({GetScreenResolutions()})[GetCurrentResolution()], "%d+x(%d+)")
-	UIParent:SetScale(newScale)	-- 以uiparent取代cvar
-	AutoScale:UnregisterAllEvents()
-end)
-]]--
+	-- 姓名板字型 
+	-- http://www.mmo-champion.com/threads/2064978-nameplate-of-target-back-to-normal-size
+	-- collectgarbage(已集成於diminfo中)
+	-- http://bbs.nga.cn/read.php?tid=4641810
+	-- 小按鈕(將用chatbar取代)
+	-- https://bbs.ngacn.cc/read.php?pid=138374968
+	-- WorldMapPingHider
+	-- https://mods.curse.com/addons/wow/world-map-ping-hider
+	
 -- [[ 強制載入 ]] --
 
 local function defaultsetting()
@@ -36,28 +35,18 @@ local function defaultsetting()
 	-- Interface
 	BossBanner:UnregisterAllEvents()					-- 不顯示橫幅(擊敗首領/圖隊拾取)
 	SetCVar("cameraDistanceMaxZoomFactor", 2.6)			-- 最遠視距，預設1.9
-	SetActionBarToggles(true, false, true, false)		-- 自動啟用快捷列(登入生效，重載無效)	
+	SetCVar("guildRosterView", 1)						-- 公會預設排列方式
+	SetActionBarToggles(true, false, true, false)		-- 自動啟用快捷列：左下右下右一右二(登入生效)
 	SetSortBagsRightToLeft(true)						-- 順向整理背包
 	SetInsertItemsLeftToRight(true)						-- 反向放置戰利品
 	SetAutoDeclineGuildInvites(false)					-- 不要自動拒絕公會邀請
-	MainMenuMicroButton_SetAlertsEnabled(false)			-- 關閉所有提示(如天賦未點)
-	
+
 	-- Collection
 	C_MountJournal.SetCollectedFilterSetting(2, false)	-- 座騎
 	C_ToyBox.SetUncollectedShown(false)					-- 玩具
 	C_PetJournal.SetFilterChecked(2)					-- 寵物
 	C_Heirloom.GetUncollectedHeirloomFilter(2)			-- 傳家寶
-	--C_TransmogCollection.SetShowMissingSourceInItemTooltips(true)
-	
-	-- Achievement frame
-	AlertFrame:ClearAllPoints()
-	AlertFrame:SetPoint("CENTER",UIParent,"CENTER",-400,0)	
-	AlertFrame:ClearAllPoints()
-	AlertFrame:SetPoint("CENTER",UIParent,"CENTER",-400,50)
-	AlertFrame:SetScale(1.00)	
-	GroupLootContainer:ClearAllPoints()
-	GroupLootContainer:SetPoint("CENTER",UIParent,"CENTER",-200,50)
-	GroupLootContainer:SetScale(1.00)
+	--C_TransmogCollection.SetShowMissingSourceInItemTooltips(true)	-- 塑型未收集提示
 
 	-- Font
 	-- 任務字體(影響全局字體)
@@ -69,11 +58,6 @@ local function defaultsetting()
 	QuestFontNormalSmall:SetShadowOffset(0, 0)
 	QuestFontHighlight:SetFont(STANDARD_TEXT_FONT, 18)			-- 內容
 	QuestFontHighlight:SetShadowOffset(0, 0)
-	-- 團隊字體(影響全局字體)
-	--SystemFont_Shadow_Small:SetFont(STANDARD_TEXT_FONT, 18, "OUTLINE")
-	--SystemFont_Shadow_Small:SetShadowColor(0, 0, 0, 0)
-	--地城手冊技能說名字體放大(副作用未知)
-	--GameFontBlack:SetFont(STANDARD_TEXT_FONT, 18)
 end 
 
 local DFS = CreateFrame("FRAME", "defaultsetting")
@@ -122,3 +106,30 @@ AutoLog:SetScript("OnEvent", function ()
 	end
 end)
 AutoLog:RegisterEvent("PLAYER_ENTERING_WORLD")
+AutoLog:RegisterEvent("PLAYER_DIFFICULTY_CHANGED")
+AutoLog:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+AutoLog:RegisterEvent("CHALLENGE_MODE_START")
+
+-- [[ 成就、死亡和升級自動截圖 ]] --
+
+-- 延遲一秒
+local delay = 1
+local time = 0
+local AutoScreenshot = CreateFrame("Frame")
+AutoScreenshot:Hide()
+AutoScreenshot:RegisterEvent("ACHIEVEMENT_EARNED")
+AutoScreenshot:RegisterEvent("PLAYER_DEAD")
+AutoScreenshot:RegisterEvent("PLAYER_LEVEL_UP")
+
+AutoScreenshot:SetScript("OnUpdate", function(self, elapsed)
+	time = time + elapsed
+	if time >= delay then
+		Screenshot()
+		time = 0
+		self:Hide()
+	end
+end)
+
+AutoScreenshot:SetScript("OnEvent", function(self, event, ...)
+	self:Show()
+end)
