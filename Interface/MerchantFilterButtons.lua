@@ -13,10 +13,10 @@ local alltexture,allcoord
 do
 	if UnitFactionGroup("player") == "Neutral" and select(2,UnitClass("player")) == "MONK" then
 		alltexture = "Interface\\Glues\\AccountUpgrade\\upgrade-panda"
-		allcoord = {0,1,0,1}
+		allcoord = {0.1,0.9,0.1,0.9}
 	else
 		alltexture = "Interface\\COMMON\\icon-"..strlower(UnitFactionGroup("player"))
-		allcoord = {0.25,0.75,0.2,0.8}
+		allcoord = {0.1,0.9,0.1,0.9}
 	end
 end
 
@@ -32,7 +32,7 @@ local function BuildButtons()
 		["BOE"] = {
 			text = ITEM_BIND_ON_EQUIP,
 			texture = "Interface\\Buttons\\UI-GroupLoot-Coin-Up",
-			coord = {0.1,0.9,0.1,0.9},
+			coord = {0.1,0.9,0,0.8},
 			filter = LE_LOOT_FILTER_BOE,
 			x = -(spacing) - 10,
 			y = 2
@@ -40,7 +40,7 @@ local function BuildButtons()
 		["CLASS"] = {
 			text = select(1,UnitClass("player")),
 			texture = "Interface\\WorldStateFrame\\ICONS-CLASSES",
-			coord = CLASS_ICON_TCOORDS[select(2,UnitClass("player"))],
+			coord = CLASS_ICON_TCOORDS[select(2,UnitClass("player"))],	-- /dump CLASS_ICON_TCOORDS[select(2,UnitClass("player"))]
 			filter = LE_LOOT_FILTER_CLASS,
 			x = -(spacing*2) - 10
 		}
@@ -80,7 +80,7 @@ local function BuildButtons()
 	for k,v in pairs(Buttons) do
 		local button = CreateFrame("Button","MFB_"..k,MerchantFrame,"MainMenuBarMicroButton")
 		button.text = v.text
-		button:SetPoint("TOPRIGHT",MerchantFrame,"TOPRIGHT",v.x,-4)
+		button:SetPoint("TOPRIGHT",MerchantFrame,"TOPRIGHT",v.x,-20)
 		button:SetScript("OnEnter",function()
 			GameTooltip:SetOwner(button, "ANCHOR_RIGHT")
 			GameTooltip:AddLine("Merchant Filter");
@@ -94,12 +94,12 @@ local function BuildButtons()
 		button:SetPushedTexture("Interface\\Buttons\\UI-MicroButtonCharacter-Down");
 		button:SetHighlightTexture("Interface\\Buttons\\UI-MicroButton-Hilight");
 		button.overlay = button:CreateTexture("MFB_"..k.."_Overlay","OVERLAY")
-		button.overlay:SetSize(16,16)
-		button.overlay:SetPoint("TOP",button,"TOP",0,(-10-(v.y or 0)))
+		button.overlay:SetSize(20,20)
+		button.overlay:SetPoint("TOP",button,"TOP",0,-14)
 		button.overlay:SetTexture(v.texture)
 		button.overlay:SetTexCoord(unpack(v.coord))
 		button.Flash.flasher = button.Flash:CreateAnimationGroup()
-		local fade1 = button.Flash.flasher:CreateAnimation("Alpha")
+		--[[local fade1 = button.Flash.flasher:CreateAnimation("Alpha")
 		fade1:SetDuration(0.5)
 		fade1:SetToAlpha(1)
 		fade1:SetOrder(1)
@@ -108,7 +108,7 @@ local function BuildButtons()
 		fade2:SetFromAlpha(1)
 		fade2:SetOrder(2)
 		button.Flash:SetAlpha(0)
-		button.Flash:Show()
+		button.Flash:Show()]]--
 		button:SetScript("OnClick",function(self,button)
 			MerchantFrame_SetFilter(MerchantFrame,v.filter)
 			MFB_DB.filter = GetMerchantFilter()
