@@ -1,3 +1,39 @@
+--[[ 裝備/狀態/屬性 ]]--
+
+local _G = _G
+-- 數值
+_G.ITEM_LEVEL_AND_MIN = "等級%d (min: %d)"
+_G.ITEM_LEVEL_RANGE = "等級%d - %d"
+_G.ITEM_LEVEL_RANGE_CURRENT = "等級%d - %d (%d)"
+_G.ITEM_LIMIT_CATEGORY_MULTIPLE = "裝備唯一: %s (%d)"
+_G.ITEM_MOD_CRIT_RATING = "+%s爆擊"
+_G.ITEM_MOD_CRIT_RATING_SHORT = "爆擊"
+_G.ITEM_MOD_VERSATILITY = "全能"
+_G.ITEM_MOD_EXTRA_ARMOR = "+%s護甲"
+_G.ITEM_MOD_EXTRA_ARMOR_SHORT = "護甲"
+_G.ITEM_SOCKETABLE = ""			--SHIFT+右鍵插寶石
+_G.ITEM_ARTIFACT_VIEWABLE = ""	--SHIFT+右鍵看神器
+_G.ARMOR_TEMPLATE = "%s護甲"
+_G.DAMAGE_TEMPLATE = "%s - %s"
+_G.DPS_TEMPLATE = "%s DPS"
+-- 角色面板戰鬥等級
+_G.STAT_CRITICAL_STRIKE = "爆擊"
+_G.STAT_VERSATILITY = "全能"
+-- 附魔
+_G.ENCHANTED_TOOLTIP_LINE = "|cff00ffff%s|r"
+-- 塑形
+_G.TRANSMOGRIFIED = "塑形：%s"
+_G.TRANSMOGRIFIED_HEADER = ""
+-- 插槽
+_G.EMPTY_SOCKET_RED = "紅"
+_G.EMPTY_SOCKET_YELLOW = "黃"
+_G.EMPTY_SOCKET_BLUE = "藍"
+_G.EMPTY_SOCKET_META = "變換"
+_G.EMPTY_SOCKET_NO_COLOR = "無"
+_G.EMPTY_SOCKET_PRISMATIC = "無"
+_G.ITEM_SOCKET_BONUS = "獎勵: %s"
+
+
 -- 小數點
 local t = { 
 	[STAT_CRITICAL_STRIKE] = true,
