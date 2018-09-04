@@ -4,6 +4,8 @@
 -- http://bbs.ngacn.cc/read.php?tid=14607924
 -- http://nga.178.com/read.php?tid=14484432
 -- http://bbs.ngacn.cc/read.php?tid=14628478
+-- combat log CLEU wiki
+-- https://wow.gamepedia.com/COMBAT_LOG_EVENT
 
 -- credits to:
 -- HopeASD (NGA qfeizaijun)
@@ -48,6 +50,11 @@ local massrez = {
 	[212051] = true,
 	[212056] = true,
 }
+-- items
+local items = {}
+
+-- reset timestamp
+local cache = {}
 
 -- [[ to get realm locale ]] --
 
@@ -67,19 +74,19 @@ end
 local SpellAnnouncer = CreateFrame("Frame")
 
 local function OnEvent(self, event, ...)
-	local _, subEvent, _, _, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
+	local timestamp, subEvent, _, _, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
 	-- 只對自己生效
 	--if select(5,...) ~= UnitName("player") then return end
 	-- 排隨機不啟用
 	--if IsInLFGDungeon() then return end
 	-- 在伊利丹排隨機不啟用
-	--if IsInLFGDungeon() and (GetLocale() == "enUS") and (GetRealmName() == "Illidan") then return end	
+	--if IsInLFGDungeon() and (GetLocale() == "enUS") and (GetRealmName() == "Illidan") then return end
 	-- 打斷
-	if subEvent == "SPELL_INTERRUPT" and spellID ~= 240448 then
+	if cache[timestamp] ~= spellID and subEvent == "SPELL_INTERRUPT" and spellID ~= 240448 then
 		-- 格式： 中斷：角色[技能]->怪物[技能]
 		local s = INTERRUPT..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName..GetSpellLink(EspellID)
 		-- 通報自己的打斷，輸出他人的打斷至聊天框但不通報
-		if sourceName == UnitName("player") then
+		if sourceName == UnitName("player") then -- sourceGUID == UnitGUID("player")?
 			if realmLocale == "zh" then
 				SendChatMessage(INTERRUPT..HEADER_COLON..destName..GetSpellLink(EspellID), channel)
 			else
@@ -90,22 +97,24 @@ local function OnEvent(self, event, ...)
 				print(s)
 			end
 		end
+		cache[timestamp] = spellID
 	-- 驅散
-	elseif subEvent == "SPELL_DISPEL" then
-		local s = DISPELS..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName..GetSpellLink(EspellID)
+	elseif cache[timestamp] ~= spellID and subEvent == "SPELL_DISPEL" then
+		local s = DISPELS..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)
 		print(s)
+		cache[timestamp] = spellID
 	-- 偷取
 	elseif subEvent == "SPELL_STOLEN" then
-		local s = ACTION_SPELL_STOLEN..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName..GetSpellLink(EspellID)
+		local s = ACTION_SPELL_STOLEN..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)
 		print(s)
 	-- 反射
 	elseif subEvent == "SPELL_MISSED" and Misstype == "REFLECT" then
-		local s = REFLEC..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName..GetSpellLink(EspellID)	-- ACTION_SPELL_MISSED_REFLECT
+		local s = REFLEC..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)	-- ACTION_SPELL_MISSED_REFLECT
 		print(s)
 	-- 嘲諷
-	elseif subEvent == "SPELL_AURA_APPLIED" and taunts[spellID] and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
+	elseif cache[timestamp] ~= spellID and subEvent == "SPELL_AURA_APPLIED" and taunts[spellID] and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
 		local role = UnitGroupRolesAssigned(sourceName)
-		local s = EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName
+		local s = "|cff99FFFF "..EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON.."|r"..sourceName..GetSpellLink(spellID).." > "..destName
 		print(s)
 		-- 通報非坦克職責嘲諷
 		if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and role ~= "TANK" then
@@ -115,9 +124,10 @@ local function OnEvent(self, event, ...)
 		elseif IsInRaid() and role ~= "TANK" then
 			SendChatMessage(s, "RAID")
 		end
+		cache[timestamp] = spellID
 	-- 嘲諷失敗
 	elseif subEvent == "SPELL_MISSED" and taunts[spellID] and Misstype == "IMMUNE" and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
-		local s = EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName.."|cffFF0000 "..FAILED.."|r"
+		local s = EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName.."|cffFF0000 "..FAILED.."|r"
 		print(s)
 	-- 群復
 	elseif subEvent == "SPELL_CAST_START" and massrez[spellID] and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
