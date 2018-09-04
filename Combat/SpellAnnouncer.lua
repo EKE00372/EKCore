@@ -73,8 +73,10 @@ end
 -- [[ core ]] --
 local SpellAnnouncer = CreateFrame("Frame")
 
-local function OnEvent(self, event, ...)
-	local timestamp, subEvent, _, _, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
+local function OnEvent(self, event)
+	local timestamp, subEvent, _, sourceGUID, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
+	-- 無施放者時不生效(例：震地)
+	if sourceGUID == nil then return end
 	-- 只對自己生效
 	--if select(5,...) ~= UnitName("player") then return end
 	-- 排隨機不啟用
@@ -82,7 +84,7 @@ local function OnEvent(self, event, ...)
 	-- 在伊利丹排隨機不啟用
 	--if IsInLFGDungeon() and (GetLocale() == "enUS") and (GetRealmName() == "Illidan") then return end
 	-- 打斷
-	if cache[timestamp] ~= spellID and subEvent == "SPELL_INTERRUPT" and spellID ~= 240448 then
+	if cache[timestamp] ~= spellID and subEvent == "SPELL_INTERRUPT" then
 		-- 格式： 中斷：角色[技能]->怪物[技能]
 		local s = INTERRUPT..HEADER_COLON..sourceName..GetSpellLink(spellID).."->"..destName..GetSpellLink(EspellID)
 		-- 通報自己的打斷，輸出他人的打斷至聊天框但不通報
@@ -94,28 +96,28 @@ local function OnEvent(self, event, ...)
 			end
 		else
 			if (UnitInRaid(sourceName) or UnitInParty(sourceName)) then
-				print(s)
+				DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 			end
 		end
 		cache[timestamp] = spellID
 	-- 驅散
 	elseif cache[timestamp] ~= spellID and subEvent == "SPELL_DISPEL" then
 		local s = DISPELS..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)
-		print(s)
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 		cache[timestamp] = spellID
 	-- 偷取
 	elseif subEvent == "SPELL_STOLEN" then
 		local s = ACTION_SPELL_STOLEN..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)
-		print(s)
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 	-- 反射
 	elseif subEvent == "SPELL_MISSED" and Misstype == "REFLECT" then
 		local s = REFLEC..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)	-- ACTION_SPELL_MISSED_REFLECT
-		print(s)
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 	-- 嘲諷
 	elseif cache[timestamp] ~= spellID and subEvent == "SPELL_AURA_APPLIED" and taunts[spellID] and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
 		local role = UnitGroupRolesAssigned(sourceName)
-		local s = "|cff99FFFF "..EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON.."|r"..sourceName..GetSpellLink(spellID).." > "..destName
-		print(s)
+		local s = EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 		-- 通報非坦克職責嘲諷
 		if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and role ~= "TANK" then
 			SendChatMessage(s, "INSTANCE_CHAT")
@@ -128,15 +130,15 @@ local function OnEvent(self, event, ...)
 	-- 嘲諷失敗
 	elseif subEvent == "SPELL_MISSED" and taunts[spellID] and Misstype == "IMMUNE" and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
 		local s = EMOTE137_CMD1:gsub("/(.*)","%1")..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName.."|cffFF0000 "..FAILED.."|r"
-		print(s)
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 	-- 群復
 	elseif subEvent == "SPELL_CAST_START" and massrez[spellID] and (UnitInRaid(sourceName)  or UnitInParty(sourceName)) then
 		local s = RESURRECT..HEADER_COLON..sourceName..GetSpellLink(spellID)
-		print(s)
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 	-- 悶棍
 	elseif subEvent == "SPELL_AURA_APPLIED" and spellID == 6770 and destName == UnitName("player") then
 		local s = LOSS_OF_CONTROL_DISPLAY_SAP..HEADER_COLON..sourceName
-		print(s)
+		DEFAULT_CHAT_FRAME:AddMessage(s, 0.6, 1, 1)
 		if realmLocale == "zh" then
 			SendChatMessage("被悶棍了！", channel)
 		else
