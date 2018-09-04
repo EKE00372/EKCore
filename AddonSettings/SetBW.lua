@@ -148,8 +148,9 @@ if(BigWigs3DB) then table.wipe(BigWigs3DB) end
 		},
 	},
 }
-BigWigs3IconDB = {
-	["hide"] = true,  --隱藏小地圖圖示
+BigWigsIconDB = {
+	--隱藏小地圖圖示
+	["hide"] = true,
 }
 end
 
