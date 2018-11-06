@@ -67,7 +67,7 @@ local massrez = {
 local ccblackList = {
 	[99] = true,		-- 夺魂咆哮
 	[122] = true,		-- 冰霜新星
-	[1784] = true,		-- 潜行
+	[1784] = true,		-- 潜行 115191
 	[5246] = true,		-- 破胆怒吼
 	[8122] = true,		-- 心灵尖啸
 	[33395] = true,		-- 冰冻术
@@ -105,8 +105,8 @@ local SpellAnnouncer = CreateFrame("Frame")
 
 local function OnEvent(self, event)
 	-- 野外停用 / disable when out of instance
-	--local instance = select(2, IsInInstance())
-	--if instance == "none" then return end
+	local instanceType = select(2, IsInInstance())
+	if instanceType == "none" then return end
 	
 	-- 單人狀態停用 / disable when solo
 	--if not IsInGroup() then return end
@@ -118,7 +118,7 @@ local function OnEvent(self, event)
 	--if IsInLFGDungeon() and (GetRealmName() == "Illidan") then return end
 	
 	-- get CLEU
-	local timestamp, subEvent, _, sourceGUID, sourceName, _, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
+	local timestamp, subEvent, _, sourceGUID, sourceName, sourceFlags, _, _, destName, _, _, spellID, _, _, EspellID, _, missType = CombatLogGetCurrentEventInfo()
 	
 	-- 無施放者時不生效(例如：震地) / avoid source nil error suck as quake interrupt
 	if sourceGUID == nil or sourceName == nil then return end
@@ -126,31 +126,25 @@ local function OnEvent(self, event)
 	-- 施放者不是隊友不啟用 / disable if source not in group
 	--if not UnitInRaid(sourceName) or UnitInParty(sourceName) then return end
 	
-	-- 寵物與守護者的啟用辦法 / filter way for pets and guardian if need
-	--bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_PARTY) ~= 0)
-	--bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) ~= 0
-	--bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_RAID) ~= 0)
-	--bit.band(sourceFlags, COMBATLOG_OBJECT_TYPE_PET) ~= 0)
-	--bit.band(sourceFlags, COMBATLOG_OBJECT_TYPE_GUARDIAN) ~= 0)
+	-- 寵物與守護者的簡單過濾 / filter way for pets and guardian if need
+	if bit.band(sourceFlags, COMBATLOG_OBJECT_REACTION_FRIENDLY) == 0 then return end
 	
 	-- 只對自己生效 / only enable on player
 	--if sourceName ~= UnitName("player") then return end
 	
 	-- 打斷 / interrupt
 	if cache[timestamp] ~= spellID and subEvent == "SPELL_INTERRUPT" then
-		-- 格式： 中斷：角色[技能]->怪物[技能]
+		-- 格式： 中斷：角色[技能] > 怪物[技能]
 		local msg = INTERRUPT..HEADER_COLON..sourceName..GetSpellLink(spellID).." > "..destName..GetSpellLink(EspellID)
 		-- 通報自己的打斷，輸出他人的打斷至聊天框但不通報
-		if sourceName == UnitName("player") then -- or sourceGUID == UnitGUID("player")
+		if sourceGUID == UnitGUID("player") or sourceGUID == UnitGUID("pet") then -- or sourceName == UnitName("player")
 			if realmLocale == "zh" then
 				SendChatMessage(INTERRUPT..HEADER_COLON..destName..GetSpellLink(EspellID), channel)
 			else
 				SendChatMessage("Interrupted "..GetSpellLink(EspellID), channel)
 			end
 		else
-			if (UnitInRaid(sourceName) or UnitInParty(sourceName)) then
-				DEFAULT_CHAT_FRAME:AddMessage(msg, 0.6, 1, 1)
-			end
+			DEFAULT_CHAT_FRAME:AddMessage(msg, 0.6, 1, 1)
 		end
 		cache[timestamp] = spellID
 	
